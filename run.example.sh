@@ -13,6 +13,7 @@ export ROUTER_PWD=your_router_pwd
 
 # Parameters
 export PRINT_PARAMETERS="server,user,address,uptime,bytes-in,bytes-out"
+export WATCH_ONLINES=true
 
 go run . --mysql-user=$MYSQL_USER \
          --mysql-host-port=$MYSQL_HOST_PORT \
@@ -21,4 +22,5 @@ go run . --mysql-user=$MYSQL_USER \
          --router-ip-port=$ROUTER_IP_PORT \
          --router-user=$ROUTER_USER \
          --router-pwd=$ROUTER_PWD \
-         --print-parameters=$PRINT_PARAMETERS
+         --print-parameters=$PRINT_PARAMETERS \
+         --watch-onlines=$WATCH_ONLINES

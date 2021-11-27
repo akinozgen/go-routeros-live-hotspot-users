@@ -16,16 +16,19 @@ import (
 )
 
 var (
-	useTLS = flag.Bool("tls", false, "use tls")
-
+	// Routeros connection parameters
+	useTLS          = flag.Bool("tls", false, "use tls")
 	routerIpPort    = flag.String("router-ip-port", os.Getenv("ROUTER_IP_PORT"), "mikrotik ip")
 	routerUser      = flag.String("router-user", os.Getenv("ROUTER_USER"), "mikrotik username")
 	routerPwd       = flag.String("router-pwd", os.Getenv("ROUTER_PWD"), "mikrotik password")
 	printProperties = flag.String("print-parameters", os.Getenv("PRINT_PARAMETERS"), "Properties")
 
+	// In app switches
 	interval            = flag.Duration("interval", 1*time.Second, "Interval")
 	testMysqlConnection = flag.Bool("test-mysql", false, "Test mysql")
+	watchOnlineUsers    = flag.Bool("watch-onlines", false, "Watch onlines")
 
+	// Mysql connection parameters
 	mysqlUser     = flag.String("mysql-user", os.Getenv("MYSQL_USER"), "mysql username")
 	mysqlPwd      = flag.String("mysql-pwd", os.Getenv("MYSQL_PWD"), "mysql password")
 	mysqlDb       = flag.String("mysql-db", os.Getenv("MYSQL_DB"), "mysql database")
@@ -50,6 +53,18 @@ func main() {
 		testMysql()
 	}
 
+	if *watchOnlineUsers {
+		watchOnlines()
+	} else {
+		checkOnlines()
+	}
+}
+
+func checkOnlines() {
+	fmt.Println("Checking onlines")
+}
+
+func watchOnlines() {
 	client, err := dial()
 	if err != nil {
 		log.Fatal(err)
@@ -64,10 +79,9 @@ func main() {
 			log.Fatal(runErr)
 			os.Exit(1)
 		}
+		clear()
 
 		for _, re := range reply.Re {
-			clear()
-
 			for _, p := range strings.Split(*printProperties, ",") {
 				fmt.Print(re.Map[p], "\t")
 			}
