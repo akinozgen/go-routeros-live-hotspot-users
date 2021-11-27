@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
-
-	tm "github.com/buger/goterm"
 
 	"github.com/go-routeros/routeros"
 )
@@ -33,9 +32,9 @@ func dial() (*routeros.Client, error) {
 func main() {
 	flag.Parse()
 
-	client, err2 := dial()
-	if err2 != nil {
-		log.Fatal(err2)
+	client, err := dial()
+	if err != nil {
+		log.Fatal(err)
 		os.Exit(1)
 	}
 
@@ -48,14 +47,21 @@ func main() {
 		}
 
 		for _, re := range reply.Re {
-			tm.Clear()
+			clear()
+
 			for _, p := range strings.Split(*properties, ",") {
 				fmt.Print(re.Map[p], "\t")
-				tm.Flush()
 			}
+			fmt.Print("\n")
 		}
-		fmt.Print("\n")
 
 		time.Sleep(*interval)
 	}
+}
+
+func clear() {
+	cmdName := "clear"
+	cmd := exec.Command(cmdName)
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }
