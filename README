@@ -4,13 +4,9 @@ Output parameters are customizable
 
 Setup:
 
-Open main.go and edit these lines:
-
-* Line 18: Change to your routers IP
-* Line 19: Change to your routers username
-* Line 20: Change to your routers password
-* Line 21: Change as your output pattern. Print your own fields (eg: server, bytes-in, bytes-out, user)
-* Line 22: Refresh Interval
+* Copy run.example.sh to run.sh 
+* Edit parameters within the new run.sh file.
+* Execute ./run.sh 
 
 
 My first usefull go project so <3 to me :)
