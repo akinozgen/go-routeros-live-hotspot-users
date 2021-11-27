@@ -1,4 +1,6 @@
-Prints mikrotik/routeros online hotspot users, bytes in/out and uptime values.
+Creates a livestream of mikrotik/routeros online hotspot users.
+
+Output parameters are customizabled
 
 Setup:
 
@@ -9,3 +11,6 @@ Open main.go and edit these lines:
 * Line 20: Change to your routers password
 * Line 21: Change as your output pattern. Print your own fields (eg: server, bytes-in, bytes-out, user)
 * Line 22: Refresh Interval
+
+
+My first usefull go project so <3 to me :)
