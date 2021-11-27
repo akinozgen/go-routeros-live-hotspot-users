@@ -1,4 +1,4 @@
-module github.com/akinozgen/mikrotik
+module github.com/akinozgen/go-routeros-live-hotspot-users
 
 go 1.17
 
