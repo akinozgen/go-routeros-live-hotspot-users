@@ -13,3 +13,12 @@ export ROUTER_PWD=your_router_pwd
 
 # Parameters
 export PRINT_PARAMETERS="server,user,address,uptime,bytes-in,bytes-out"
+
+go run . --mysql-user=$MYSQL_USER \
+         --mysql-host-port=$MYSQL_HOST_PORT \
+         --mysql-pwd=$MYSQL_PWD \
+         --mysql-db=$MYSQL_DB \
+         --router-ip-port=$ROUTER_IP_PORT \
+         --router-user=$ROUTER_USER \
+         --router-pwd=$ROUTER_PWD \
+         --print-parameters=$PRINT_PARAMETERS

@@ -16,23 +16,30 @@ import (
 )
 
 var (
-	useTLS              = flag.Bool("tls", false, "use tls")
-	ip                  = flag.String("address", os.Getenv("ROUTER_IP_PORT"), "mikrotik ip")
-	user                = flag.String("username", os.Getenv("ROUTER_USER"), "mikrotik username")
-	pass                = flag.String("password", os.Getenv("ROUTER_PWD"), "mikrotik password")
-	properties          = flag.String("properties", os.Getenv("PRINT_PARAMETERS"), "Properties")
+	useTLS = flag.Bool("tls", false, "use tls")
+
+	routerIpPort    = flag.String("router-ip-port", os.Getenv("ROUTER_IP_PORT"), "mikrotik ip")
+	routerUser      = flag.String("router-user", os.Getenv("ROUTER_USER"), "mikrotik username")
+	routerPwd       = flag.String("router-pwd", os.Getenv("ROUTER_PWD"), "mikrotik password")
+	printProperties = flag.String("print-parameters", os.Getenv("PRINT_PARAMETERS"), "Properties")
+
 	interval            = flag.Duration("interval", 1*time.Second, "Interval")
 	testMysqlConnection = flag.Bool("test-mysql", false, "Test mysql")
+
+	mysqlUser     = flag.String("mysql-user", os.Getenv("MYSQL_USER"), "mysql username")
+	mysqlPwd      = flag.String("mysql-pwd", os.Getenv("MYSQL_PWD"), "mysql password")
+	mysqlDb       = flag.String("mysql-db", os.Getenv("MYSQL_DB"), "mysql database")
+	mysqlHostPort = flag.String("mysql-host-port", os.Getenv("MYSQL_HOST_PORT"), "mysql host port")
 )
 
 var db *sql.DB
 
 func dial() (*routeros.Client, error) {
 	if *useTLS {
-		return routeros.DialTLS(*ip, *user, *pass, nil)
+		return routeros.DialTLS(*routerIpPort, *routerUser, *routerPwd, nil)
 	}
 
-	return routeros.Dial(*ip, *user, *pass)
+	return routeros.Dial(*routerIpPort, *routerUser, *routerPwd)
 }
 
 func main() {
@@ -61,7 +68,7 @@ func main() {
 		for _, re := range reply.Re {
 			clear()
 
-			for _, p := range strings.Split(*properties, ",") {
+			for _, p := range strings.Split(*printProperties, ",") {
 				fmt.Print(re.Map[p], "\t")
 			}
 			fmt.Print("\n")
@@ -74,11 +81,11 @@ func main() {
 func testMysql() {
 
 	config := mysql.Config{
-		User:                 os.Getenv("MYSQL_USER"),
-		Passwd:               os.Getenv("MYSQL_PWD"),
+		User:                 *mysqlUser,
+		Passwd:               *mysqlPwd,
 		Net:                  "tcp",
-		Addr:                 os.Getenv("MYSQL_HOST_PORT"),
-		DBName:               os.Getenv("MYSQL_DB"),
+		Addr:                 *mysqlHostPort,
+		DBName:               *mysqlDb,
 		AllowNativePasswords: true,
 	}
 
