@@ -1,0 +1,11 @@
+Prints mikrotik/routeros online hotspot users, bytes in/out and uptime values.
+
+Setup:
+
+Open main.go and edit these lines:
+
+* Line 18: Change to your routers IP
+* Line 19: Change to your routers username
+* Line 20: Change to your routers password
+* Line 21: Change as your output pattern. Print your own fields (eg: server, bytes-in, bytes-out, user)
+* Line 22: Refresh Interval
